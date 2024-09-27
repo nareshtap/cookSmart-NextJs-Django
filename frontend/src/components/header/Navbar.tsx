@@ -95,9 +95,7 @@ const Navbar = () => {
           </li>
         </ul>
       </nav>
-      {isOverlayVisible && (
-        <SearchOverlay />
-      )}
+      {isOverlayVisible && <SearchOverlay />}
     </>
   );
 };
