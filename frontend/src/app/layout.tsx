@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import StoreProvider from "@/redux/stroreProvider";
 import { Toaster } from "react-hot-toast";
+import ClientLayout from "@/components/ClientLayout";
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -17,8 +18,10 @@ export default function RootLayout({
     <html lang="en">
       <body>
         <StoreProvider>
-          <Toaster />
-          {children}
+          <ClientLayout>
+            <Toaster />
+            {children}
+          </ClientLayout>
         </StoreProvider>
       </body>
     </html>
