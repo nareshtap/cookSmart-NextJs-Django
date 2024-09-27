@@ -1,7 +1,8 @@
-from rest_framework import generics, permissions
+from rest_framework import generics, permissions, status
 from .models import Recipe
 from .serializers import RecipeSerializer
 from django.db.models import Q
+from rest_framework.response import Response
 class RecipeListCreateView(generics.ListCreateAPIView):
     queryset = Recipe.objects.all()
     serializer_class = RecipeSerializer
@@ -48,3 +49,13 @@ class UserCreatedRecipesView(generics.ListAPIView):
     def get_queryset(self):
         return Recipe.objects.filter(created_by=self.request.user) 
     
+class LikeRecipeView(generics.UpdateAPIView):
+    queryset = Recipe.objects.all()
+    permission_classes = [permissions.IsAuthenticated]
+
+    def post(self, request, *args, **kwargs):
+        recipe = self.get_object()
+        if recipe.likes.filter(id=request.user.id).exists():
+            return Response({"detail": "You have already liked this recipe."}, status=status.HTTP_400_BAD_REQUEST)
+        recipe.likes.add(request.user)
+        return Response({"detail": "Recipe liked successfully."}, status=status.HTTP_200_OK)
