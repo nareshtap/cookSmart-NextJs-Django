@@ -33,4 +33,18 @@ class RecipeDetailView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Recipe.objects.all()
     serializer_class = RecipeSerializer
     permission_classes = [permissions.IsAuthenticated] 
- 
+    
+class LikedRecipesView(generics.ListAPIView):
+    permission_classes = [permissions.IsAuthenticated]
+    serializer_class = RecipeSerializer
+
+    def get_queryset(self):
+        return Recipe.objects.filter(likes=self.request.user)
+
+class UserCreatedRecipesView(generics.ListAPIView):
+    permission_classes = [permissions.IsAuthenticated]
+    serializer_class = RecipeSerializer
+
+    def get_queryset(self):
+        return Recipe.objects.filter(created_by=self.request.user) 
+    
