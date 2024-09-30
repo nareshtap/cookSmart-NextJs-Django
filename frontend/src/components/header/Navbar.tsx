@@ -14,10 +14,8 @@ import SearchOverlay from "@/components/header/SearchOverlay";
 const Navbar = () => {
   const router = useRouter();
   const dispatch: AppDispatch = useDispatch();
-  const { isLoggedIn, isOverlayVisible } = useSelector(
-    (state: RootState) => state.auth
-  );
-
+  const { isLoggedIn, isOverlayVisible } = useSelector((state: RootState) => state.auth);
+  
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   useEffect(() => {
@@ -52,10 +50,7 @@ const Navbar = () => {
             CookSmart
           </Link>
         </div>
-        <div
-          className={styles.hamburger}
-          onClick={() => setIsMenuOpen(!isMenuOpen)}
-        >
+        <div className={styles.hamburger} onClick={() => setIsMenuOpen(!isMenuOpen)}>
           <FontAwesomeIcon icon={isMenuOpen ? faTimes : faBars} />
         </div>
         <ul className={`${styles.navLinks} ${isMenuOpen ? styles.active : ""}`}>
@@ -95,7 +90,9 @@ const Navbar = () => {
           </li>
         </ul>
       </nav>
-      {isOverlayVisible && <SearchOverlay />}
+      {isOverlayVisible && (
+        <SearchOverlay onClose={() => dispatch(setOverlayVisible(false))} />
+      )}
     </>
   );
 };
