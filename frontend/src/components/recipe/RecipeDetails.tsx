@@ -6,8 +6,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "@/redux/store";
 import { currentUser } from "@/redux/services/authService";
 import { setLiked } from "@/redux/slices/recipeSlice";
-import { likeRecipe } from "@/redux/services/recipeService";
-
+import { fetchRecipes, likeRecipe } from "@/redux/services/recipeService";
+import { selectRecipes } from "@/redux/slices/recipeSlice";
 interface PopularRecipeProps {
   currentRecipes: any;
 }
@@ -15,6 +15,12 @@ interface PopularRecipeProps {
 const RecipeDetails: React.FC<PopularRecipeProps> = ({ currentRecipes }) => {
   const dispatch: AppDispatch = useDispatch();
   const { liked } = useSelector((state: RootState) => state.recipe);
+
+  useEffect(() => {
+    dispatch(fetchRecipes(undefined));
+  }, [dispatch]);
+
+  const recipes = useSelector(selectRecipes);
   const recipeId = currentRecipes?.id;
 
   const checkLikedStatus = async () => {
@@ -70,17 +76,19 @@ const RecipeDetails: React.FC<PopularRecipeProps> = ({ currentRecipes }) => {
             />
           )}
         </h1>
-        <div className={styles.likeButton}>
-          <div
-            className={`${styles.toggleButton} ${
-              liked === true ? styles.liked : styles.disliked
-            }`}
-            onClick={toggleLikeDislike}
-            aria-label="Like/Dislike"
-          >
-            {liked === true ? <FaHeart /> : <FaRegHeart />}
+        {recipes.length > 0 && (
+          <div className={styles.likeButton}>
+            <div
+              className={`${styles.toggleButton} ${
+                liked === true ? styles.liked : styles.disliked
+              }`}
+              onClick={toggleLikeDislike}
+              aria-label="Like/Dislike"
+            >
+              {liked === true ? <FaHeart /> : <FaRegHeart />}
+            </div>
           </div>
-        </div>
+        )}
       </div>
 
       <div className={styles.container}>
@@ -128,3 +136,4 @@ const RecipeDetails: React.FC<PopularRecipeProps> = ({ currentRecipes }) => {
 };
 
 export default RecipeDetails;
+import redirectToLogin from "@/hoc/redirectToLogin";

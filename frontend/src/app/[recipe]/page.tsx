@@ -10,6 +10,7 @@ import { selectSelectedRecipe } from "@/redux/slices/recipeSlice";
 import { fetchRecipeById } from "@/redux/services/recipeService";
 import redirectLoggedIn from "@/hoc/redirectToLogin";
 import recipeData from "@/data/recipes.json";
+import { notFound } from "next/navigation";
 
 const Page = () => {
   const dispatch = useDispatch<AppDispatch>();
@@ -26,6 +27,10 @@ const Page = () => {
       dispatch(fetchRecipeById(Number(recipe)));
     }
   }, [recipe, dispatch]);
+
+  if (!recipes) {
+    notFound();
+  }
 
   return (
     <>
