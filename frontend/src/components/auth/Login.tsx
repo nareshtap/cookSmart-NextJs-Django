@@ -86,6 +86,7 @@ const LogIn = () => {
   };
 
   const handleRegister = async (e) => {
+    setLoading(true);
     e.preventDefault();
     if (!validateEmail(registerData.email)) {
       toast.error("Invalid email format");
@@ -107,6 +108,7 @@ const LogIn = () => {
       }
     } catch (error) {
       toast.error(error.payload);
+      setLoading(false);
     }
   };
 
@@ -260,7 +262,11 @@ const LogIn = () => {
                   required
                   aria-required="true"
                 />
-                <button className={styles.btn_login} onClick={handleSubmit}>
+                <button
+                  className={styles.btn_login}
+                  onClick={handleSubmit}
+                  disabled={loading}
+                >
                   LOGIN
                 </button>
               </div>
@@ -309,7 +315,7 @@ const LogIn = () => {
                 <button
                   className={styles.btn_sign_up}
                   onClick={handleRegister}
-                  disabled={!loading}
+                  disabled={loading}
                 >
                   SIGN UP
                 </button>

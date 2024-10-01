@@ -1,0 +1,155 @@
+  .greenText {
+    color: #4caf50;
+  }
+
+  .recipeHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 80%;
+    margin: 0 auto;
+    padding-top: 20px;
+  }
+  
+  .recipeName {
+    font-size: 2.5rem;
+    margin: 0;
+    color: green;
+  }
+  
+  .likeButton{
+    display: flex;
+    align-items: center;
+  }
+  
+  .toggleButton {
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    font-size: 1.5rem;
+    color: #ccc;
+    transition: transform 0.3s ease, color 0.3s ease;
+  }
+  
+  .toggleButton:hover {
+    transform: scale(1.2);
+  }
+  
+  .liked {
+    color: #28a745; 
+  }
+  
+  .disliked {
+    color: #dc3545; 
+  }
+  
+  .toggleButton:focus {
+    outline: none;
+  }
+  
+  .container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 80%;
+    margin: 0 auto;
+    padding-top: 20px;
+  }
+  
+  .recipeMeta {
+    margin: 10px 0;
+  }
+  
+  .recipeMeta span {
+    display: block;
+    margin-bottom: 5px;
+    color: #666;
+  }
+  
+  .recipe-info {
+    width: 60%;
+  }
+  
+  .recipeInfo{
+    width: 680px;
+  }
+  
+  .instructionStep{
+    display: flex;
+    flex-direction: row;
+  }
+  
+  .ingredients {
+    width: 50%;
+  }
+  
+  .steps {
+    margin: 20px 0;
+  }
+  
+  .steps h1 {
+    font-size: 2.5rem;
+    margin: 10px 0;
+    color: #333;
+  }
+  
+  .ingredients h2 {
+    font-size: 1.5rem;
+  }
+  
+  .ingredients ul {
+    list-style: disc;
+    padding-left: 20px;
+  }
+  
+  .ingredients ul li {
+    font-size: 1.5rem;
+    color: #666;
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+  }
+  
+  .ingredients ul li input {
+    margin: 10px 0 10px 0;
+  }
+  
+  .rating,
+  .button {
+    display: flex;
+    align-items: center;
+  }
+  
+  .rating span {
+    margin-right: 5px;
+  }
+  
+  .rating i {
+    color: gold;
+  }
+  
+  .button {
+    background-color: #28a745;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 5px;
+    text-align: center;
+    cursor: pointer;
+    text-transform: uppercase;
+  }
+  
+  .button:hover {
+    background-color: #218838;
+  }
+  
+  @media (max-width: 768px) {
+    .container {
+      flex-direction: column;
+    }
+  
+    .recipe-info,
+    .ingredients {
+      width: 100%;
+    }
+  }
+  

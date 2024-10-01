@@ -25,7 +25,7 @@ const PopularRecipe: React.FC<PopularRecipeProps> = ({ recipes }) => {
     <section className={styles.topCategoryArea}>
       <div className={styles.topCategoryAreaWrap}>
         {recipes.slice(0, 2).map((recipe, index) => (
-          <div className={styles.singleTopCategory}>
+          <div key={index} className={styles.singleTopCategory}>
             <img src={recipe.photo_link} alt="Strawberry Cake" />
             <div className={styles.topCtaContent}>
               <h3>{recipe.name}</h3>

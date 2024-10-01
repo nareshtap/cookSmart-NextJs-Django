@@ -35,7 +35,7 @@ const refreshAccessToken = async () => {
       return access;
     } catch (error) {
       toast.error("Please, Login to continue");
-      window.location.href = "/signin";
+      window.location.href = "/auth/login";
       throw error;
     }
   }
@@ -57,7 +57,7 @@ axiosInstance.interceptors.response.use(
         }
       } catch (refreshError) {
         toast.error("Please, Login to continue");
-        window.location.href = "/signin";
+        window.location.href = "/auth/login";
         return Promise.reject(refreshError);
       }
     }
