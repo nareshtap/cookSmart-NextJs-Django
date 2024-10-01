@@ -73,7 +73,7 @@ const Navbar = () => {
                 Logout
               </Link>
             ) : (
-              <Link href="/signin">Login</Link>
+              <Link href="/auth/login">Login</Link>
             )}
           </li>
           <li>
