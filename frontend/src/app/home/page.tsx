@@ -12,7 +12,7 @@ import recipeData from "@/data/recipes.json";
 import AllRecipe from "@/components/home/AllRecipe";
 import RecipePoster from "@/components/home/RecipePoster";
 
-const Home = () => {
+const HomePage = () => {
   const allRecipeRef = useRef<null | HTMLDivElement>(null);
   const dispatch = useDispatch<AppDispatch>();
   const recipes = useSelector(selectRecipes);
@@ -62,4 +62,4 @@ const Home = () => {
   );
 };
 
-export default Home;
+export default HomePage;
