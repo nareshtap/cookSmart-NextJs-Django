@@ -8,13 +8,15 @@ import Link from "next/link";
 import toast from "react-hot-toast";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
+import recipeData from "@/data/recipes.json";
 
 const SearchOverlay = ({ onClose }) => {
   const dispatch: AppDispatch = useDispatch();
   const results = useSelector(selectRecipes);
+  const [data, setData] = useState(results.length > 0 ? results : recipeData);
   const { query } = useSelector((state: RootState) => state.recipe);
 
-  const handleSearch = async (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSearch = async (e) => {
     e.preventDefault();
     const trimmedQuery = query.trim();
 
@@ -24,7 +26,22 @@ const SearchOverlay = ({ onClose }) => {
         const { payload } = response as { payload: any[] };
 
         if (payload.length === 0) {
-          toast.error("No Recipe Found.");
+          const localResults = recipeData.filter(
+            (recipe) =>
+              recipe.name.toLowerCase().includes(trimmedQuery.toLowerCase()) ||
+              recipe.ingredients.some((ingredient) =>
+                ingredient.toLowerCase().includes(trimmedQuery.toLowerCase())
+              ) ||
+              recipe.cuisine_type
+                .toLowerCase()
+                .includes(trimmedQuery.toLowerCase())
+          );
+
+          if (localResults.length === 0) {
+            toast.error("No Recipe Found.");
+          } else {
+            setData(localResults);
+          }
         }
       } catch (error) {
         toast.error("An error occurred while fetching recipes.");
@@ -38,9 +55,9 @@ const SearchOverlay = ({ onClose }) => {
   return (
     <div className={styles.overlay}>
       <div className={styles.overlayContent}>
-        <button className={styles.closeButton} onClick={onClose}>
+        <div className={styles.closeButton} onClick={onClose}>
           <div className={styles.closeIcon}>&times;</div>
-        </button>
+        </div>
         <form onSubmit={handleSearch}>
           <h2 style={{ color: "green" }}>Search Recipes</h2>
           <div className={styles.SearchBarButton}>
@@ -51,14 +68,13 @@ const SearchOverlay = ({ onClose }) => {
               placeholder="Search by name, ingredients, cuisine type..."
               className={styles.searchInput}
             />
-            <button type="submit" className={styles.searchButton}>
+            <div onClick={handleSearch} className={styles.searchButton}>
               <FontAwesomeIcon icon={faSearch} />
-            </button>
+            </div>
           </div>
         </form>
-
         <ul className={styles.resultsList}>
-          {results.map((result, index) => (
+          {data.map((result, index) => (
             <Link href={`/${result.id}`} style={{ textDecoration: "none" }}>
               <li key={index} className={styles.resultItem} onClick={onClose}>
                 <img
