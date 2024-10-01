@@ -1,0 +1,198 @@
+[
+    {
+        "id": 1,
+        "name": "Vegetable Stir-Fry",
+        "ingredients": [
+            "broccoli",
+            "carrots",
+            "bell peppers",
+            "soy sauce",
+            "ginger",
+            "garlic"
+        ],
+        "instructions": [
+            "Chop all vegetables into bite-sized pieces. Chop all vegetables into bite-sized pieces.. Chop all vegetables into bite-sized pieces.",
+            "Heat oil in a pan over medium heat.",
+            "Add ginger and garlic, sauté until fragrant.",
+            "Add vegetables and stir-fry for 5-7 minutes.",
+            "Pour in soy sauce and cook for another 2-3 minutes."
+        ],
+        "liked_by": [
+            {
+                "username": "naresh",
+                "email": "naresh@gmail.com",
+                "password": "pbkdf2_sha256$870000$QyswxMRTa8QtPfmqC1ousT$cGG476ZH9OboIn18E133kI71vO+I82mfGeBTBCRMoOA=",
+                "phone_number": "7536985412"
+            }
+        ],
+        "created_by": {
+            "username": "naresh",
+            "email": "naresh@gmail.com",
+            "password": "pbkdf2_sha256$870000$QyswxMRTa8QtPfmqC1ousT$cGG476ZH9OboIn18E133kI71vO+I82mfGeBTBCRMoOA=",
+            "phone_number": "7536985412"
+        },
+        "cuisine_type": "Asian",
+        "photo_link": "https://res.cloudinary.com/dzdsvt79u/image/upload/v1727160453/cld-sample-4.jpg",
+        "preparation_time": 10,
+        "cooking_time": 10,
+        "yields": 2,
+        "is_vegetarian": false
+    },
+    {
+        "id": 6,
+        "name": "Spaghetti Aglio e Olio",
+        "ingredients": [
+            "400g Spaghetti",
+            "6 Garlic cloves (thinly sliced)",
+            "1/2 cup Olive oil",
+            "1 tsp Red pepper flakes",
+            "Salt to taste",
+            "1/4 cup Fresh parsley (chopped)",
+            "Parmesan cheese (optional, for garnish)"
+        ],
+        "instructions": [
+            "Cook spaghetti in salted water until al dente.",
+            "Heat olive oil in a pan, add garlic and red pepper flakes, and sauté until fragrant.",
+            "Toss cooked spaghetti into the garlic oil, add chopped parsley, and mix well.",
+            "Serve hot, garnished with Parmesan cheese if desired."
+        ],
+        "liked_by": [
+            {
+                "username": "naresh",
+                "email": "naresh@gmail.com",
+                "password": "pbkdf2_sha256$870000$QyswxMRTa8QtPfmqC1ousT$cGG476ZH9OboIn18E133kI71vO+I82mfGeBTBCRMoOA=",
+                "phone_number": "7536985412"
+            }
+        ],
+        "created_by": {
+            "username": "naresh",
+            "email": "naresh@gmail.com",
+            "password": "pbkdf2_sha256$870000$QyswxMRTa8QtPfmqC1ousT$cGG476ZH9OboIn18E133kI71vO+I82mfGeBTBCRMoOA=",
+            "phone_number": "7536985412"
+        },
+        "cuisine_type": "Italian",
+        "photo_link": "https://res.cloudinary.com/dzdsvt79u/image/upload/v1727349153/ldlrawn3c2bvmsiuunjd.jpg",
+        "preparation_time": 10,
+        "cooking_time": 15,
+        "yields": 4,
+        "is_vegetarian": true
+    },
+    {
+        "id": 7,
+        "name": "Chicken Tikka Masala",
+        "ingredients": [
+            "500g Chicken breast (cubed)",
+            "1 cup Yogurt",
+            "2 tbsp Tikka Masala spice mix",
+            "1 Onion (finely chopped)",
+            "1 cup Tomato puree",
+            "1/2 cup Cream",
+            "2 tbsp Ghee or oil",
+            "Salt to taste",
+            "Fresh cilantro (for garnish)"
+        ],
+        "instructions": [
+            "Marinate chicken in yogurt and tikka masala spice mix for at least 1 hour.",
+            "Grill or pan-fry the marinated chicken until fully cooked.",
+            "In a pan, sauté onions in ghee, add tomato puree, and simmer.",
+            "Add cream, grilled chicken, and cook for 10 more minutes.",
+            "Serve with fresh cilantro on top."
+        ],
+        "liked_by": [
+            {
+                "username": "naresh",
+                "email": "naresh@gmail.com",
+                "password": "pbkdf2_sha256$870000$QyswxMRTa8QtPfmqC1ousT$cGG476ZH9OboIn18E133kI71vO+I82mfGeBTBCRMoOA=",
+                "phone_number": "7536985412"
+            }
+        ],
+        "created_by": {
+            "username": "naresh",
+            "email": "naresh@gmail.com",
+            "password": "pbkdf2_sha256$870000$QyswxMRTa8QtPfmqC1ousT$cGG476ZH9OboIn18E133kI71vO+I82mfGeBTBCRMoOA=",
+            "phone_number": "7536985412"
+        },
+        "cuisine_type": "Indian",
+        "photo_link": "https://res.cloudinary.com/dzdsvt79u/image/upload/v1727160453/cld-sample-4.jpg",
+        "preparation_time": 60,
+        "cooking_time": 30,
+        "yields": 4,
+        "is_vegetarian": false
+    },
+    {
+        "id": 8,
+        "name": "Vegetable Stir-Fry with Tofu",
+        "ingredients": [
+            "300g Firm tofu (cubed)",
+            "1 Carrot (sliced)",
+            "1 Bell pepper (sliced)",
+            "1 Zucchini (sliced)",
+            "1/4 cup Soy sauce",
+            "2 tbsp Sesame oil",
+            "2 Garlic cloves (minced)",
+            "1 tsp Ginger (minced)",
+            "1 tsp Cornstarch (optional, for thickening)",
+            "Sesame seeds (for garnish)"
+        ],
+        "instructions": [
+            "Stir-fry tofu in sesame oil until golden, set aside.",
+            "In the same pan, sauté garlic and ginger, then add all the vegetables and stir-fry until tender-crisp.",
+            "Add soy sauce and cornstarch slurry (if using) for a thicker sauce, and toss in the tofu.",
+            "Serve hot, garnished with sesame seeds."
+        ],
+        "liked_by": [],
+        "created_by": {
+            "username": "naresh",
+            "email": "naresh@gmail.com",
+            "password": "pbkdf2_sha256$870000$QyswxMRTa8QtPfmqC1ousT$cGG476ZH9OboIn18E133kI71vO+I82mfGeBTBCRMoOA=",
+            "phone_number": "7536985412"
+        },
+        "cuisine_type": "Indian",
+        "photo_link": "https://res.cloudinary.com/dzdsvt79u/image/upload/v1727350189/ugtqwzqlfzupih8lo878.jpg",
+        "preparation_time": 15,
+        "cooking_time": 20,
+        "yields": 3,
+        "is_vegetarian": true
+    },
+    {
+        "id": 9,
+        "name": "Paneer Butter Masala",
+        "ingredients": [
+            "250g Paneer (cubed)",
+            "3 tbsp Butter (unsalted)",
+            "1 Onion (finely chopped)",
+            "2 Green chilies (optional, slit lengthwise)",
+            "1 1/2 cups Tomato puree (or 4 large tomatoes, finely blended)",
+            "1 tsp Ginger-garlic paste",
+            "1/2 tsp Red chili powder"
+        ],
+        "instructions": [
+            "If the paneer is store-bought, soak it in warm water for 10-15 minutes to soften it. Drain and set aside.",
+            "In a large pan, melt 2 tablespoons of butter over medium heat. Add the chopped onions and sauté until they turn soft and golden brown, about 5-7 minutes. Add ginger-garlic paste and green chilies, and cook for another 2 minutes until fragrant.",
+            "Add the tomato puree to the pan, and cook for 8-10 minutes, stirring occasionally, until the tomatoes reduce and the oil starts to separate. Add the red chili powder, turmeric, ground coriander, and salt, and mix well.",
+            "Stir in the cream and sugar (if using), and let the sauce simmer for another 5 minutes until it thickens. Crush the fenugreek leaves between your hands and add them to the sauce for extra flavor.",
+            "Add the paneer cubes to the sauce, gently stirring to coat them with the rich gravy. Let the paneer simmer in the sauce for 5-7 minutes to absorb the flavors. Add the remaining tablespoon of butter for extra richness and sprinkle garam masala over the dish.",
+            "Garnish with fresh cilantro leaves and serve hot with naan, roti, or jeera rice."
+        ],
+        "liked_by": [
+            {
+                "username": "naresh",
+                "email": "naresh@gmail.com",
+                "password": "pbkdf2_sha256$870000$QyswxMRTa8QtPfmqC1ousT$cGG476ZH9OboIn18E133kI71vO+I82mfGeBTBCRMoOA=",
+                "phone_number": "7536985412"
+            }
+        ],
+        "created_by": {
+            "username": "naresh",
+            "email": "naresh@gmail.com",
+            "password": "pbkdf2_sha256$870000$QyswxMRTa8QtPfmqC1ousT$cGG476ZH9OboIn18E133kI71vO+I82mfGeBTBCRMoOA=",
+            "phone_number": "7536985412"
+        },
+        "cuisine_type": "Indian",
+        "photo_link": "https://res.cloudinary.com/dzdsvt79u/image/upload/v1727357450/jqwtxocomintzfzk1t1i.jpg",
+        "preparation_time": 20,
+        "cooking_time": 30,
+        "yields": 4,
+        "is_vegetarian": false
+    }
+]

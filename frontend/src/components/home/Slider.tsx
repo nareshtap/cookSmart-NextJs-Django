@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styles from "@/styles/home/Slider.module.css";
 import slider1 from "@/public/images/home/Slider1.jpg";
 import slider2 from "@/public/images/home/Slider2.jpg";
@@ -26,7 +26,11 @@ const slides = [
   },
 ];
 
-const HomePageSlider: React.FC = () => {
+interface SliderProps {
+  scrollToRecipes: () => void;
+}
+
+const HomePageSlider: React.FC<SliderProps> = ({ scrollToRecipes }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
 
   const nextSlide = () => {
@@ -38,6 +42,14 @@ const HomePageSlider: React.FC = () => {
       (prevIndex) => (prevIndex - 1 + slides.length) % slides.length
     );
   };
+
+  useEffect(() => {
+    const intervalId = setInterval(nextSlide, 5000);
+
+    return () => {
+      clearInterval(intervalId);
+    };
+  }, []);
 
   return (
     <section className={styles.heroArea}>
@@ -58,11 +70,10 @@ const HomePageSlider: React.FC = () => {
               {slides[currentIndex].description}
             </p>
             <button
+              onClick={scrollToRecipes}
               className={`${styles.btn} ${styles.deliciousBtn}`}
-              data-animation="fadeInUp"
-              data-delay="1000ms"
             >
-              See Recipe
+              See recipes
             </button>
           </div>
         </div>
