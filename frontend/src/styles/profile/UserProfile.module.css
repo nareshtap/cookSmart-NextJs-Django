@@ -1,0 +1,120 @@
+.profileContainer {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  min-height: 700px;
+  margin: 0 auto;
+}
+
+.userDetails {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 50px 40px;
+  background-color: #f9f9f9;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s;
+  border-right: 2px solid #4caf50;
+}
+
+.greencolor {
+  color: green;
+}
+
+.userImage {
+  width: 150px;
+  height: 150px;
+  object-fit: cover;
+  border-radius: 50%;
+  border: 2px solid #ddd;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  margin-bottom: 15px;
+}
+
+.userDetailItem {
+  display: flex;
+  align-items: center;
+  margin: 5px 0;
+  font-size: 16px;
+  color: #333;
+}
+
+.userDetailItem svg {
+  margin-right: 8px;
+}
+
+.image {
+  width: 120px;
+  height: 100px;
+}
+
+.recipeSection {
+  flex: 2;
+  margin-top: 20px;
+}
+
+.tabSwitcher {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 15px;
+  gap: 10px;
+}
+
+.tabButton {
+  padding: 10px 15px;
+  border: none;
+  cursor: pointer;
+  border-radius: 5px;
+  text-transform: initial;
+}
+
+.tabButton.active {
+  background-color: #ccc;
+  font-weight: bold;
+}
+
+.recipeCards {
+  display: grid;
+  gap: 15px;
+  grid-template-columns: repeat(auto-fill, minmax(500px, 1fr));
+  padding: 15px;
+
+}
+
+.recipeCard a {
+  width: calc(50% - 40px);
+  margin-bottom: 20px;
+  text-decoration: none;
+}
+
+.recipeInfo {
+  margin-top: 10px;
+}
+
+.notfound {
+    grid-column: span 2;
+    color: green;
+    text-align: center;
+    margin: 50px 0 0;
+}
+
+@media (max-width: 768px) {
+  .profileContainer {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .userDetails {
+    margin: 20px;
+    padding: 30px;
+    width: 90%;
+  }
+
+  .recipeSection {
+    width: 100%;
+  }
+
+  .recipeCards {
+    grid-template-columns: repeat(1, 1fr);
+  }
+}
