@@ -1,0 +1,65 @@
+.bestRecipeArea {
+    position: relative;
+    z-index: 1;
+    padding: 50px 0;
+    background-color: #f9f9f9;
+  }
+  
+  .sectionHeading {
+    text-align: center;
+    margin-bottom: 30px;
+  }
+  
+  .sectionHeading h2 {
+    font-size: 32px;
+    line-height: 42px;
+    font-weight: 600;
+    color: #333;
+    margin: 0;
+  }
+  
+  .allRecipeMain {
+    padding: 20px 35px 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 15px;
+  }
+  
+  .singleBestRecipeArea {
+    position: relative;
+    transition: transform 0.3s, box-shadow 0.3s;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 0 5px 5px #00000021;
+    cursor: pointer;
+  }
+  
+  .singleBestRecipeArea:hover {
+    transform: translateY(-10px);
+    /* box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15); */
+  }
+  
+  .singleBestRecipeArea img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+  }
+  
+  .recipeContent {
+    text-align: center;
+    padding: 15px;
+    border-bottom: 5px solid #40ba37;
+  }
+  
+  .recipeContent h5 {
+    font-size: 20px;
+    margin: 0;
+    font-weight: 500;
+    color: #444;
+    transition: color 0.3s;
+  }
+  
+  .singleBestRecipeArea:hover h5 {
+    color: #40ba37;
+  }
+  
