@@ -1,0 +1,63 @@
+.TitlePoster {
+    position: relative;
+    z-index: 10;
+    width: 92%;
+    height: 590px;
+    margin-top: 4%;
+    margin-left: 4%;
+    margin-right: 4%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .titleOverlay {
+    padding: 10px;
+    background-color: #00000043;
+    border-radius: 10px;
+    -webkit-backdrop-filter: blur(4px);
+    backdrop-filter: blur(4px);
+    animation: HomePageSlider_fadeInUp__qtjoR 1s ease-in-out;
+    opacity: 1;
+    animation-fill-mode: forwards;
+    align-items: center;
+    gap: 15px;
+  }
+  
+  .breadcumbArea {
+    position: relative;
+    z-index: 10;
+    width: 92%;
+    height: 190px;
+    margin-left: 4%;
+    margin-right: 4%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  @media only screen and (max-width: 767px) {
+    .breadcumbArea {
+      height: 120px;
+    }
+    .TitlePoster {
+      height: 240px;
+    }
+  }
+  
+  .breadcumbText {
+    text-align: center;
+  }
+  
+  .breadcumbText h2 {
+    font-size: 30px;
+    margin-bottom: 0;
+    color: #ffffff;
+  }
+  
+  @media only screen and (max-width: 767px) {
+    .breadcumbText h2 {
+      font-size: 24px;
+    }
+  }
+  
