@@ -5,6 +5,7 @@ import {
   likeRecipe,
   fetchCreatedRecipes,
   fetchLikedRecipes,
+  dislikeRecipe,
 } from "../services/recipeService";
 import { Recipe, RecipeForm, RecipeState } from "@/types/recipe";
 
@@ -24,6 +25,7 @@ const initialState: RecipeState = {
   recipes: [],
   selectedRecipe: null,
   isLoading: false,
+  recipeLoading: false,
   error: null,
   query: "",
   liked: false,
@@ -95,18 +97,18 @@ const recipeSlice = createSlice({
     //fetch recipe by Id
     builder
       .addCase(fetchRecipeById.pending, (state) => {
-        state.isLoading = true;
+        state.recipeLoading = true;
         state.error = null;
       })
       .addCase(
         fetchRecipeById.fulfilled,
         (state, action: PayloadAction<Recipe>) => {
-          state.isLoading = false;
+          state.recipeLoading = false;
           state.selectedRecipe = action.payload;
         }
       )
       .addCase(fetchRecipeById.rejected, (state) => {
-        state.isLoading = false;
+        state.recipeLoading = false;
         state.error = "Failed to fetch the recipe.";
       });
 
@@ -127,6 +129,30 @@ const recipeSlice = createSlice({
         }
       })
       .addCase(likeRecipe.rejected, (state) => {
+        state.isLoading = false;
+        state.error = "Failed to like the recipe.";
+      });
+
+    //dislike the recipe
+    builder
+      .addCase(dislikeRecipe.pending, (state) => {
+        state.isLoading = false;
+        state.error = null;
+      })
+      .addCase(
+        dislikeRecipe.fulfilled,
+        (state, action: PayloadAction<Recipe>) => {
+          state.isLoading = false;
+          state.liked = false;
+          if (
+            state.selectedRecipe &&
+            state.selectedRecipe.id === action.payload.id
+          ) {
+            state.selectedRecipe = action.payload;
+          }
+        }
+      )
+      .addCase(dislikeRecipe.rejected, (state) => {
         state.isLoading = false;
         state.error = "Failed to like the recipe.";
       });

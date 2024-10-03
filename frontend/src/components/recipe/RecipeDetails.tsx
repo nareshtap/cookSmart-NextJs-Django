@@ -6,26 +6,19 @@ import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "@/redux/store";
 import { currentUser } from "@/redux/services/authService";
 import { setLiked } from "@/redux/slices/recipeSlice";
-import { likeRecipe } from "@/redux/services/recipeService";
+import { dislikeRecipe, likeRecipe } from "@/redux/services/recipeService";
 import { Recipe } from "@/types/recipe";
 
 interface PopularRecipeProps {
   currentRecipes: Recipe;
-  recipes: Recipe[];
 }
 
-const RecipeDetails: React.FC<PopularRecipeProps> = ({
-  currentRecipes,
-  recipes,
-}) => {
+const RecipeDetails: React.FC<PopularRecipeProps> = ({ currentRecipes }) => {
   const dispatch: AppDispatch = useDispatch();
 
   const { liked } = useSelector((state: RootState) => state.recipe);
-  const { isLoading } = useSelector((state: RootState) => state.recipe);
 
   const recipeId = currentRecipes?.id;
-
-  // console.log("isLoading", isLoading)
 
   const checkLikedStatus = async () => {
     const resultAction = await dispatch(currentUser());
@@ -50,16 +43,22 @@ const RecipeDetails: React.FC<PopularRecipeProps> = ({
   }, [currentRecipes]);
 
   const toggleLikeDislike = async () => {
-    try {
-      const resultAction = await dispatch(likeRecipe(recipeId));
-      if (likeRecipe.fulfilled.match(resultAction)) {
-        toast.success("Recipe Liked Successfully!");
+    if (!liked) {
+      try {
+        const resultAction = await dispatch(likeRecipe(recipeId));
+        toast.success("Recipe Liked!");
         dispatch(setLiked(true));
-      } else {
-        toast.error("You have already liked the recipe");
+      } catch (error) {
+        toast.error("Something went wrong");
       }
-    } catch (error) {
-      toast.error("Something went wrong");
+    } else {
+      try {
+        const resultAction = await dispatch(dislikeRecipe(recipeId));
+        toast.success("Recipe disLiked!");
+        dispatch(setLiked(false));
+      } catch (error) {
+        toast.error("Something went wrong");
+      }
     }
   };
 
@@ -80,19 +79,17 @@ const RecipeDetails: React.FC<PopularRecipeProps> = ({
             />
           )}
         </h1>
-        {recipes.length > 0 && (
-          <div className={styles.likeButton}>
-            <div
-              className={`${styles.toggleButton} ${
-                liked === true ? styles.liked : styles.disliked
-              }`}
-              onClick={toggleLikeDislike}
-              aria-label="Like/Dislike"
-            >
-              {liked === true ? <FaHeart /> : <FaRegHeart />}
-            </div>
+        <div className={styles.likeButton}>
+          <div
+            className={`${styles.toggleButton} ${
+              liked === true ? styles.liked : styles.disliked
+            }`}
+            onClick={toggleLikeDislike}
+            aria-label="Like/Dislike"
+          >
+            {liked === true ? <FaHeart /> : <FaRegHeart />}
           </div>
-        )}
+        </div>
       </div>
 
       <div className={styles.container}>

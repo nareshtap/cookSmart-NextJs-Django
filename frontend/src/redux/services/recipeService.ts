@@ -42,6 +42,18 @@ export const likeRecipe = createAsyncThunk(
   }
 );
 
+export const dislikeRecipe = createAsyncThunk(
+  "dislikeRecipe",
+  async (id: number, { rejectWithValue }) => {
+    try {
+      const response = await axiosInstance.post(`/api/recipes/${id}/dislike/`);
+      return response.data as Recipe;
+    } catch (error) {
+      return rejectWithValue(error.response?.data.message || error.message);
+    }
+  }
+);
+
 export const addRecipe = createAsyncThunk(
   "recipe/add",
   async (recipe: RecipeCreation, { rejectWithValue }) => {
@@ -54,15 +66,18 @@ export const addRecipe = createAsyncThunk(
   }
 );
 
-export const fetchCreatedRecipes = createAsyncThunk("createdRecipes", async () => {
-  try {
-    const response = await axiosInstance.get("/api/recipes/created-recipes");
-    const data = response.data;
-    return data;
-  } catch (error) {
-    throw new Error(error.response.data.message);
+export const fetchCreatedRecipes = createAsyncThunk(
+  "createdRecipes",
+  async () => {
+    try {
+      const response = await axiosInstance.get("/api/recipes/created-recipes");
+      const data = response.data;
+      return data;
+    } catch (error) {
+      throw new Error(error.response.data.message);
+    }
   }
-});
+);
 
 export const fetchLikedRecipes = createAsyncThunk("likedRecipes", async () => {
   try {

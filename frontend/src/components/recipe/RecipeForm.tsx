@@ -4,7 +4,6 @@ import {
   Box,
   TextField,
   Button,
-  Container,
   Grid,
   MenuItem,
   FormControl,
@@ -14,7 +13,6 @@ import {
   Checkbox,
   CircularProgress,
 } from "@mui/material";
-import { styled } from "@mui/system";
 import { AppDispatch, RootState } from "@/redux/store";
 import { useDispatch, useSelector } from "react-redux";
 import { uploadImageToCloudinary } from "@/utils/cloudinary";
@@ -29,58 +27,12 @@ import {
   setRecipeForm,
   setUpload,
 } from "@/redux/slices/recipeSlice";
-
-const GradientBackground = styled(Box)(({ theme }) => ({
-  display: "flex",
-  justifyContent: "center",
-  minHeight: "100vh",
-  alignItems: "center",
-  animation: "gradient 15s ease infinite",
-  padding: theme.spacing(6),
-}));
-
-const StyledContainer = styled(Container)(({ theme }) => ({
-  backgroundSize: "cover",
-  backgroundPosition: "center",
-  padding: theme.spacing(4),
-  maxWidth: "600px",
-  borderRadius: "10px",
-  boxShadow: "0px 0px 20px rgba(0, 0, 0, 0.2)",
-  position: "relative",
-  overflow: "hidden",
-  "&::before": {
-    content: '""',
-    position: "absolute",
-    top: 0,
-    left: 0,
-    width: "100%",
-    height: "100%",
-    backgroundColor: "rgba(255, 255, 255, 0.8)",
-    borderRadius: "10px",
-    zIndex: 1,
-  },
-  "& > *": {
-    position: "relative",
-    zIndex: 2,
-  },
-}));
-
-const FileInputContainer = styled(Box)(({ theme }) => ({
-  display: "flex",
-  alignItems: "center",
-  justifyContent: "center",
-  border: "1px solid #4caf50",
-  borderRadius: "5px",
-  padding: "10px",
-  cursor: "pointer",
-  position: "relative",
-  overflow: "hidden",
-  backgroundColor: "#fff",
-}));
-
-const FileInput = styled("input")({
-  display: "none",
-});
+import {
+  FileInput,
+  FileInputContainer,
+  GradientBackground,
+  StyledContainer,
+} from "./muiStyledComponents";
 
 const RecipeForm = () => {
   const dispatch = useDispatch<AppDispatch>();
@@ -209,9 +161,26 @@ const RecipeForm = () => {
     if (!validateForm()) {
       return;
     }
+
+    // Trim empty ingredients and instructions before sending
+    const trimmedIngredients = recipeForm.ingredients
+      .map((ingredient) => ingredient.trim())
+      .filter((ingredient) => ingredient !== "");
+
+    const trimmedInstructions = recipeForm.instructions
+      .map((instruction) => instruction.trim())
+      .filter((instruction) => instruction !== "");
+
+    // Create a new form with trimmed values
+    const trimmedRecipeForm = {
+      ...recipeForm,
+      ingredients: trimmedIngredients,
+      instructions: trimmedInstructions,
+    };
+
     try {
-      await dispatch(addRecipe(recipeForm));
-      dispatch(resetRecipeForm())
+      await dispatch(addRecipe(trimmedRecipeForm));
+      dispatch(resetRecipeForm());
       toast.success("Recipe submitted successfully!");
       router.replace("/home");
     } catch (error) {
@@ -224,44 +193,30 @@ const RecipeForm = () => {
       <StyledContainer>
         <h3 className={styles.FormTitle}>Add a New Recipe</h3>
         <form onSubmit={handleSubmit}>
-          {Object.keys(recipeForm).map(
-            (key) =>
-              key !== "cuisine_type" &&
-              key !== "yields" &&
-              key !== "preparation_time" &&
-              key !== "cooking_time" &&
-              key !== "ingredients" &&
-              key !== "instructions" &&
-              key !== "is_vegetarian" &&
-              key !== "photo_link" && (
-                <TextField
-                  key={key}
-                  label={key
-                    .replace(/_/g, " ")
-                    .replace(/\b\w/g, (char) => char.toUpperCase())}
-                  name={key}
-                  fullWidth
-                  margin="normal"
-                  value={recipeForm[key]}
-                  onChange={handleInputChange}
-                  InputLabelProps={{ shrink: !!recipeForm[key] }}
-                  className={styles.input}
-                  sx={{
-                    "& .MuiOutlinedInput-root": {
-                      "&:hover fieldset": {
-                        borderColor: "#66bb6a",
-                      },
-                      "&.Mui-focused fieldset": {
-                        borderColor: "#81c784",
-                      },
-                      "& .MuiFormLabel-root": {
-                        color: "#81c784",
-                      },
-                    },
-                  }}
-                />
-              )
-          )}
+          <TextField
+            key="name"
+            label="Name"
+            name="name"
+            fullWidth
+            margin="normal"
+            value={recipeForm.name}
+            onChange={handleInputChange}
+            InputLabelProps={{ shrink: !!recipeForm.name }}
+            className={styles.input}
+            sx={{
+              "& .MuiOutlinedInput-root": {
+                "&:hover fieldset": {
+                  borderColor: "#66bb6a",
+                },
+                "&.Mui-focused fieldset": {
+                  borderColor: "#81c784",
+                },
+                "& .MuiFormLabel-root": {
+                  color: "#81c784",
+                },
+              },
+            }}
+          />
           <h6 className={styles.subHead}>Ingredients:</h6>
           <Grid container spacing={2}>
             {recipeForm.ingredients.map((ingredient, index) => (
@@ -359,6 +314,7 @@ const RecipeForm = () => {
               type="number"
               value={recipeForm.yields}
               onChange={handleInputChange}
+              inputProps={{ min: 0 }}
               sx={{
                 flex: 1,
                 marginLeft: 1,
@@ -387,6 +343,7 @@ const RecipeForm = () => {
               type="number"
               value={recipeForm.preparation_time}
               onChange={handleInputChange}
+              inputProps={{ min: 0 }}
               sx={{
                 flex: 1,
                 marginRight: 1,
@@ -407,6 +364,7 @@ const RecipeForm = () => {
               type="number"
               value={recipeForm.cooking_time}
               onChange={handleInputChange}
+              inputProps={{ min: 0 }}
               sx={{
                 flex: 1,
                 marginLeft: 1,
