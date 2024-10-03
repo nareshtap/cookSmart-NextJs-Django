@@ -6,21 +6,18 @@ import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "@/redux/store";
 import { currentUser } from "@/redux/services/authService";
 import { setLiked } from "@/redux/slices/recipeSlice";
-import { fetchRecipes, likeRecipe } from "@/redux/services/recipeService";
-import { selectRecipes } from "@/redux/slices/recipeSlice";
+import { dislikeRecipe, likeRecipe } from "@/redux/services/recipeService";
+import { Recipe } from "@/types/recipe";
+
 interface PopularRecipeProps {
-  currentRecipes: any;
+  currentRecipes: Recipe;
 }
 
 const RecipeDetails: React.FC<PopularRecipeProps> = ({ currentRecipes }) => {
   const dispatch: AppDispatch = useDispatch();
+
   const { liked } = useSelector((state: RootState) => state.recipe);
 
-  useEffect(() => {
-    dispatch(fetchRecipes(undefined));
-  }, [dispatch]);
-
-  const recipes = useSelector(selectRecipes);
   const recipeId = currentRecipes?.id;
 
   const checkLikedStatus = async () => {
@@ -35,7 +32,7 @@ const RecipeDetails: React.FC<PopularRecipeProps> = ({ currentRecipes }) => {
         dispatch(setLiked(isLiked));
       }
     } else {
-      console.error("Failed to fetch the current user");
+      console.error("Failed fetch the user data. Please Login again.");
     }
   };
 
@@ -46,16 +43,22 @@ const RecipeDetails: React.FC<PopularRecipeProps> = ({ currentRecipes }) => {
   }, [currentRecipes]);
 
   const toggleLikeDislike = async () => {
-    try {
-      const resultAction = await dispatch(likeRecipe(recipeId));
-      if (likeRecipe.fulfilled.match(resultAction)) {
-        toast.success("Recipe Liked Successfully!");
+    if (!liked) {
+      try {
+        const resultAction = await dispatch(likeRecipe(recipeId));
+        toast.success("Recipe Liked!");
         dispatch(setLiked(true));
-      } else {
-        toast.error("You have already liked the recipe");
+      } catch (error) {
+        toast.error("Something went wrong");
       }
-    } catch (error) {
-      toast.error("Something went wrong");
+    } else {
+      try {
+        const resultAction = await dispatch(dislikeRecipe(recipeId));
+        toast.success("Recipe disLiked!");
+        dispatch(setLiked(false));
+      } catch (error) {
+        toast.error("Something went wrong");
+      }
     }
   };
 
@@ -76,19 +79,17 @@ const RecipeDetails: React.FC<PopularRecipeProps> = ({ currentRecipes }) => {
             />
           )}
         </h1>
-        {recipes.length > 0 && (
-          <div className={styles.likeButton}>
-            <div
-              className={`${styles.toggleButton} ${
-                liked === true ? styles.liked : styles.disliked
-              }`}
-              onClick={toggleLikeDislike}
-              aria-label="Like/Dislike"
-            >
-              {liked === true ? <FaHeart /> : <FaRegHeart />}
-            </div>
+        <div className={styles.likeButton}>
+          <div
+            className={`${styles.toggleButton} ${
+              liked === true ? styles.liked : styles.disliked
+            }`}
+            onClick={toggleLikeDislike}
+            aria-label="Like/Dislike"
+          >
+            {liked === true ? <FaHeart /> : <FaRegHeart />}
           </div>
-        )}
+        </div>
       </div>
 
       <div className={styles.container}>
@@ -109,25 +110,25 @@ const RecipeDetails: React.FC<PopularRecipeProps> = ({ currentRecipes }) => {
         <div className={styles.recipeMeta}>
           <h2 className={styles.greenText}>Instructions</h2>
           <div className={styles.steps}>
-            {currentRecipes?.instructions.map(
-              (instruction: string, index: number) => (
+            {currentRecipes?.instructions
+              .filter((instructions: string) => instructions.trim() !== "")
+              .map((instruction: string, index: number) => (
                 <div className={styles.instructionStep} key={index}>
                   <h3>{String(index + 1).padStart(2, "0")}. </h3>
                   <h3>{instruction}</h3>
                 </div>
-              )
-            )}
+              ))}
           </div>
         </div>
 
         <div className={styles.recipeMeta}>
           <h2 className={styles.greenText}>Ingredients</h2>
           <ul>
-            {currentRecipes?.ingredients.map(
-              (ingredient: string, index: number) => (
+            {currentRecipes?.ingredients
+              .filter((ingredient: string) => ingredient.trim() !== "")
+              .map((ingredient: string, index: number) => (
                 <li key={index}>{ingredient}</li>
-              )
-            )}
+              ))}
           </ul>
         </div>
       </div>
@@ -136,4 +137,3 @@ const RecipeDetails: React.FC<PopularRecipeProps> = ({ currentRecipes }) => {
 };
 
 export default RecipeDetails;
-import redirectToLogin from "@/hoc/redirectToLogin";

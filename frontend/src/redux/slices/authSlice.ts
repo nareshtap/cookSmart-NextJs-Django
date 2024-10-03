@@ -1,33 +1,13 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { login, currentUser } from "@/redux/services/authService";
+import { AuthState } from "@/types/auth";
 
-interface AuthState {
-  isLoading: boolean;
-  error: any;
-  formData: {
-    email: string;
-    password: string;
-  };
-  registerData: {
-    username: string;
-    email: string;
-    password: string;
-    phone_number: string;
-  };
-  isLoggedIn: boolean;
-  isOverlayVisible: boolean;
-  user: {
-    username: string;
-    email: string;
-    phone_number: string;
-  };
-}
-const initialFormData = {
+const initialFormData: AuthState["formData"] = {
   email: "",
   password: "",
 };
 
-const initialRegisterData = {
+const initialRegisterData: AuthState["registerData"] = {
   username: "",
   email: "",
   password: "",
@@ -42,6 +22,9 @@ const initialState: AuthState = {
   isLoggedIn: false,
   isOverlayVisible: false,
   user: null,
+  formVisible: false,
+  loggedIn: false,
+  isMenuOpen: false,
 };
 
 const authSlice = createSlice({
@@ -60,15 +43,27 @@ const authSlice = createSlice({
     ) => {
       state.registerData = { ...state.registerData, ...action.payload };
     },
-    setIsLoggedIn: (state, action) => {
+    setIsLoggedIn: (state, action: PayloadAction<boolean>) => {
       state.isLoggedIn = action.payload;
     },
-    setOverlayVisible: (state, action) => {
+    setOverlayVisible: (state, action: PayloadAction<boolean>) => {
       state.isOverlayVisible = action.payload;
+    },
+    setFormVisible: (state, action: PayloadAction<boolean>) => {
+      state.formVisible = action.payload;
+    },
+    setIsLoading: (state, action: PayloadAction<boolean>) => {
+      state.isLoading = action.payload;
+    },
+    setLoggedIn: (state, action: PayloadAction<boolean>) => {
+      state.loggedIn = action.payload;
+    },
+    setIsMenuOpen: (state, action: PayloadAction<boolean>) => {
+      state.isMenuOpen = action.payload;
     },
   },
   extraReducers: (builder) => {
-    //login
+    // Login
     builder.addCase(login.pending, (state) => {
       state.isLoading = true;
       state.error = null;
@@ -78,11 +73,12 @@ const authSlice = createSlice({
     });
     builder.addCase(login.rejected, (state, action) => {
       state.isLoading = false;
-      state.error = action.error;
+      state.error = action.error.message || "Login failed"; 
     });
 
+    // Current user
     builder.addCase(currentUser.pending, (state) => {
-      state.isLoading = true;
+      state.isLoading = false;
       state.error = null;
     });
     builder.addCase(currentUser.fulfilled, (state, action) => {
@@ -91,7 +87,7 @@ const authSlice = createSlice({
     });
     builder.addCase(currentUser.rejected, (state, action) => {
       state.isLoading = false;
-      state.error = action.error;
+      state.error = action.error.message || "Failed to fetch user"; 
     });
   },
 });
@@ -101,5 +97,10 @@ export const {
   setRegisterData,
   setIsLoggedIn,
   setOverlayVisible,
+  setFormVisible,
+  setIsLoading,
+  setLoggedIn,
+  setIsMenuOpen,
 } = authSlice.actions;
+
 export default authSlice.reducer;

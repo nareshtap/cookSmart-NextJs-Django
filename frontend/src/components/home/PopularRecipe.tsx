@@ -1,23 +1,20 @@
-import React, { useEffect } from "react";
+import React from "react";
 import styles from "@/styles/home/PopularRecipe.module.css";
-import { useDispatch } from "react-redux";
-import { AppDispatch } from "@/redux/store";
-import { fetchRecipes } from "@/redux/services/recipeService";
 import { useRouter } from "next/navigation";
+import { Recipe } from "@/types/recipe";
 
 interface PopularRecipeProps {
-  recipes: Array<any>;
+  recipes: Recipe[];
+  scrollToRecipes: () => void;
 }
 
-const PopularRecipe: React.FC<PopularRecipeProps> = ({ recipes }) => {
-  const dispatch = useDispatch<AppDispatch>();
+const PopularRecipe: React.FC<PopularRecipeProps> = ({
+  recipes,
+  scrollToRecipes,
+}) => {
   const router = useRouter();
 
-  useEffect(() => {
-    dispatch(fetchRecipes(undefined));
-  }, [dispatch]);
-
-  const handleRedirect = (id: string) => {
+  const handleRedirect = (id: number) => {
     router.push(`/${id}`);
   };
 
@@ -26,7 +23,7 @@ const PopularRecipe: React.FC<PopularRecipeProps> = ({ recipes }) => {
       <div className={styles.topCategoryAreaWrap}>
         {recipes.slice(0, 2).map((recipe, index) => (
           <div key={index} className={styles.singleTopCategory}>
-            <img src={recipe.photo_link} alt="Strawberry Cake" />
+            <img src={recipe.photo_link} alt={recipe.name} />
             <div className={styles.topCtaContent}>
               <h3>{recipe.name}</h3>
               <h4>{recipe.cuisine_type}</h4>

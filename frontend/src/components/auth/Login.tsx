@@ -1,7 +1,6 @@
 "use client";
-import React from "react";
+import React, { useRef } from "react";
 import { useRouter } from "next/navigation";
-import { useState, useRef } from "react";
 import styles from "@/styles/auth/Login.module.css";
 import hello from "../../public/images/auth/login.jpg";
 import { useDispatch, useSelector } from "react-redux";
@@ -10,17 +9,22 @@ import {
   setFormData,
   setRegisterData,
   setIsLoggedIn,
+  setFormVisible,
+  setIsLoading,
+  setLoggedIn,
 } from "@/redux/slices/authSlice";
 import { login, register } from "@/redux/services/authService";
 import toast from "react-hot-toast";
 
-const LogIn = () => {
-  const [loading, setLoading] = useState(false);
+const LogIn: React.FC = () => {
+  const loginRef = useRef<HTMLDivElement>(null);
+  const signUpRef = useRef<HTMLDivElement>(null);
+
   const router = useRouter();
+
   const dispatch: AppDispatch = useDispatch();
-  const { formData, registerData } = useSelector(
-    (state: RootState) => state.auth
-  );
+  const { formData, registerData, formVisible, isLoading, loggedIn } =
+    useSelector((state: RootState) => state.auth);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     dispatch(setFormData({ [e.target.name]: e.target.value }));
@@ -62,7 +66,7 @@ const LogIn = () => {
   }
 
   const handleSubmit = async (e) => {
-    setLoading(true);
+    dispatch(setIsLoading(true));
     e.preventDefault();
     if (!validateEmail(formData.email)) {
       toast.error("Invalid email format");
@@ -81,12 +85,12 @@ const LogIn = () => {
       }
     } catch (error) {
       toast.error(error.payload);
-      setLoading(false);
+      dispatch(setIsLoading(false));
     }
   };
 
   const handleRegister = async (e) => {
-    setLoading(true);
+    dispatch(setIsLoading(true));
     e.preventDefault();
     if (!validateEmail(registerData.email)) {
       toast.error("Invalid email format");
@@ -108,15 +112,9 @@ const LogIn = () => {
       }
     } catch (error) {
       toast.error(error.payload);
-      setLoading(false);
+      dispatch(setIsLoading(false));
     }
   };
-
-  const [isLogin, setIsLogin] = useState(true);
-  const [formVisible, setFormVisible] = useState(false);
-
-  const loginRef = useRef<HTMLDivElement>(null);
-  const signUpRef = useRef<HTMLDivElement>(null);
 
   const timeToShowLogin = 400;
   const timeToHideLogin = 200;
@@ -124,9 +122,10 @@ const LogIn = () => {
   const timeToHideSignUp = 400;
   const timeToHideAll = 500;
 
+  //switch to login
   const changeToLogin = () => {
-    setFormVisible(true);
-    setIsLogin(true);
+    dispatch(setFormVisible(true));
+    dispatch(setLoggedIn(true));
     if (loginRef.current) {
       loginRef.current.style.display = "block";
       loginRef.current.style.opacity = "0";
@@ -145,9 +144,10 @@ const LogIn = () => {
     }
   };
 
+  //switch to signup
   const changeToSignUp = () => {
-    setFormVisible(true);
-    setIsLogin(false);
+    dispatch(setFormVisible(true));
+    dispatch(setLoggedIn(false));
     if (signUpRef.current) {
       signUpRef.current.style.display = "block";
       signUpRef.current.style.opacity = "0";
@@ -166,8 +166,9 @@ const LogIn = () => {
     }
   };
 
+  //minimize the form
   const hideForms = () => {
-    setFormVisible(false);
+    dispatch(setFormVisible(false));
     if (loginRef.current) {
       loginRef.current.style.opacity = "0";
     }
@@ -229,7 +230,7 @@ const LogIn = () => {
             <div
               className={`${styles.cont_forms} ${
                 formVisible
-                  ? isLogin
+                  ? loggedIn
                     ? styles.cont_forms_active_login
                     : styles.cont_forms_active_sign_up
                   : ""
@@ -265,7 +266,7 @@ const LogIn = () => {
                 <button
                   className={styles.btn_login}
                   onClick={handleSubmit}
-                  disabled={loading}
+                  disabled={isLoading}
                 >
                   LOGIN
                 </button>
@@ -315,7 +316,7 @@ const LogIn = () => {
                 <button
                   className={styles.btn_sign_up}
                   onClick={handleRegister}
-                  disabled={loading}
+                  disabled={isLoading}
                 >
                   SIGN UP
                 </button>

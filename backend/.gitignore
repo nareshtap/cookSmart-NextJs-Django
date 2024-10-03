@@ -15,10 +15,8 @@ venv.bak/
 *.pot
 *.pyc
 __pycache__/
-db.sqlite3
 media/
 staticfiles/
-*.sqlite3
 
 # Node.js #
 node_modules/

@@ -35,7 +35,7 @@ const Footer: React.FC = () => {
 
           <div>
             <h4 className={styles.h4}>Contact Us</h4>
-            <p className={styles.p}>Email: info@example.com</p>
+            <p className={styles.p}>Email: naresh.tap@gmail.com</p>
             <p className={styles.p}>Phone: (123) 456-7890</p>
           </div>
         </div>
