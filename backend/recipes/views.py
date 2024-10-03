@@ -59,3 +59,15 @@ class LikeRecipeView(generics.UpdateAPIView):
             return Response({"detail": "You have already liked this recipe."}, status=status.HTTP_400_BAD_REQUEST)
         recipe.likes.add(request.user)
         return Response({"detail": "Recipe liked successfully."}, status=status.HTTP_200_OK)
+    
+class DislikeRecipeView(generics.UpdateAPIView):
+    queryset = Recipe.objects.all()
+    permission_classes = [permissions.IsAuthenticated]
+
+    def post(self, request, *args, **kwargs):
+        recipe = self.get_object()
+        if not recipe.likes.filter(id=request.user.id).exists():
+            return Response({"detail": "You have not liked this recipe."}, status=status.HTTP_400_BAD_REQUEST)
+        
+        recipe.likes.remove(request.user)
+        return Response({"detail": "Recipe disliked successfully."}, status=status.HTTP_200_OK)
