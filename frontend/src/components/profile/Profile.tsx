@@ -2,7 +2,7 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import styles from "@/styles/profile/UserProfile.module.css";
-import { selectRecipes, setActiveTab } from "@/redux/slices/recipeSlice";
+import { setActiveTab } from "@/redux/slices/recipeSlice";
 import { AppDispatch, RootState } from "@/redux/store";
 import { currentUser } from "@/redux/services/authService";
 import {
@@ -16,13 +16,12 @@ import { faUser, faEnvelope, faPhone } from "@fortawesome/free-solid-svg-icons";
 import { Button } from "@mui/material";
 import redirectToLogin from "@/hoc/redirectToLogin";
 
-const Profile = () => {
+const Profile: React.FC = () => {
   const dispatch: AppDispatch = useDispatch();
-  const recipes = useSelector(selectRecipes);
+
   const { createdRecipes, likedRecipes, activeTab } = useSelector(
     (state: RootState) => state.recipe
   );
-
   const { user } = useSelector((state: RootState) => state.auth);
 
   useEffect(() => {

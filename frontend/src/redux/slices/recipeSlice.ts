@@ -6,40 +6,19 @@ import {
   fetchCreatedRecipes,
   fetchLikedRecipes,
 } from "../services/recipeService";
+import { Recipe, RecipeForm, RecipeState } from "@/types/recipe";
 
-export interface User {
-  username: string;
-  email: string;
-  password: string;
-  phone_number: string;
-}
-
-export interface Recipe {
-  id: number;
-  name: string;
-  ingredients: string[];
-  instructions: string[];
-  liked_by: User[];
-  created_by: User;
-  cuisine_type: string;
-  photo_link: string;
-  preparation_time: number;
-  cooking_time: number;
-  yields: number;
-  is_vegetarian: boolean;
-}
-
-interface RecipeState {
-  recipes: Recipe[];
-  selectedRecipe: Recipe | null;
-  isLoading: boolean;
-  error: string | null;
-  query: string;
-  liked: boolean;
-  createdRecipes: Recipe[];
-  likedRecipes: Recipe[];
-  activeTab: string;
-}
+const initialRecipeState: RecipeForm = {
+  name: "",
+  ingredients: ["", "", ""],
+  instructions: [""],
+  cuisine_type: "",
+  photo_link: "",
+  preparation_time: "",
+  cooking_time: "",
+  yields: "",
+  is_vegetarian: false,
+};
 
 const initialState: RecipeState = {
   recipes: [],
@@ -51,57 +30,93 @@ const initialState: RecipeState = {
   createdRecipes: [],
   likedRecipes: [],
   activeTab: "myRecipes",
+  data: null,
+  recipeForm: initialRecipeState,
+  fileName: "Choose File",
+  upload: false,
 };
 
 const recipeSlice = createSlice({
   name: "recipes",
   initialState,
   reducers: {
-    setQuery: (state, action) => {
+    setQuery: (state, action: PayloadAction<string>) => {
       state.query = action.payload;
     },
-    setLiked: (state, action) => {
+    setLiked: (state, action: PayloadAction<boolean>) => {
       state.liked = action.payload;
     },
-    setActiveTab: (state, action) => {
+    setActiveTab: (state, action: PayloadAction<string>) => {
       state.activeTab = action.payload;
+    },
+    setData: (state, action: PayloadAction<Recipe[] | null>) => {
+      state.data = action.payload;
+    },
+    setRecipeForm: (state, action: PayloadAction<Partial<RecipeForm>>) => {
+      state.recipeForm = {
+        ...state.recipeForm,
+        ...action.payload,
+      };
+    },
+    resetRecipeForm: (state) => {
+      (state.recipeForm = initialRecipeState),
+        (state.fileName = "Choose File"),
+        (state.upload = false);
+    },
+    setFileName: (state, action: PayloadAction<string>) => {
+      state.fileName = action.payload;
+    },
+    setUpload: (state, action: PayloadAction<boolean>) => {
+      state.upload = action.payload;
+    },
+    setRecipesData: (state, action: PayloadAction<Recipe[]>) => {
+      state.recipes = action.payload;
     },
   },
   extraReducers: (builder) => {
+    //fetch all recipes
     builder
       .addCase(fetchRecipes.pending, (state) => {
         state.isLoading = true;
         state.error = null;
       })
-      .addCase(fetchRecipes.fulfilled, (state, action: any) => {
+      .addCase(
+        fetchRecipes.fulfilled,
+        (state, action: PayloadAction<Recipe[]>) => {
+          state.isLoading = false;
+          state.recipes = action.payload;
+        }
+      )
+      .addCase(fetchRecipes.rejected, (state) => {
         state.isLoading = false;
-        state.recipes = action.payload;
-      })
-      .addCase(fetchRecipes.rejected, (state, action) => {
-        state.isLoading = false;
-        state.error = action.payload as string;
+        state.error = "Failed to fetch recipes.";
       });
 
+    //fetch recipe by Id
     builder
       .addCase(fetchRecipeById.pending, (state) => {
         state.isLoading = true;
         state.error = null;
       })
-      .addCase(fetchRecipeById.fulfilled, (state, action: any) => {
+      .addCase(
+        fetchRecipeById.fulfilled,
+        (state, action: PayloadAction<Recipe>) => {
+          state.isLoading = false;
+          state.selectedRecipe = action.payload;
+        }
+      )
+      .addCase(fetchRecipeById.rejected, (state) => {
         state.isLoading = false;
-        state.selectedRecipe = action.payload;
-      })
-      .addCase(fetchRecipeById.rejected, (state, action) => {
-        state.isLoading = false;
-        state.error = action.payload as string;
+        state.error = "Failed to fetch the recipe.";
       });
 
+    //like the recipe
     builder
       .addCase(likeRecipe.pending, (state) => {
-        state.isLoading = true;
+        state.isLoading = false;
         state.error = null;
       })
-      .addCase(likeRecipe.fulfilled, (state, action: any) => {
+      .addCase(likeRecipe.fulfilled, (state, action: PayloadAction<Recipe>) => {
         state.isLoading = false;
         state.liked = true;
         if (
@@ -111,37 +126,45 @@ const recipeSlice = createSlice({
           state.selectedRecipe = action.payload;
         }
       })
-      .addCase(likeRecipe.rejected, (state, action) => {
+      .addCase(likeRecipe.rejected, (state) => {
         state.isLoading = false;
-        state.error = action.payload as string;
+        state.error = "Failed to like the recipe.";
       });
 
+    //created recipes
     builder
       .addCase(fetchCreatedRecipes.pending, (state) => {
         state.isLoading = true;
         state.error = null;
       })
-      .addCase(fetchCreatedRecipes.fulfilled, (state, action: any) => {
+      .addCase(
+        fetchCreatedRecipes.fulfilled,
+        (state, action: PayloadAction<Recipe[]>) => {
+          state.isLoading = false;
+          state.createdRecipes = action.payload;
+        }
+      )
+      .addCase(fetchCreatedRecipes.rejected, (state) => {
         state.isLoading = false;
-        state.createdRecipes = action.payload;
-      })
-      .addCase(fetchCreatedRecipes.rejected, (state, action) => {
-        state.isLoading = false;
-        state.error = action.payload as string;
+        state.error = "Failed to fetch created recipes.";
       });
 
+    //liked recipes
     builder
       .addCase(fetchLikedRecipes.pending, (state) => {
         state.isLoading = true;
         state.error = null;
       })
-      .addCase(fetchLikedRecipes.fulfilled, (state, action: any) => {
+      .addCase(
+        fetchLikedRecipes.fulfilled,
+        (state, action: PayloadAction<Recipe[]>) => {
+          state.isLoading = false;
+          state.likedRecipes = action.payload;
+        }
+      )
+      .addCase(fetchLikedRecipes.rejected, (state) => {
         state.isLoading = false;
-        state.likedRecipes = action.payload;
-      })
-      .addCase(fetchLikedRecipes.rejected, (state, action) => {
-        state.isLoading = false;
-        state.error = action.payload as string;
+        state.error = "Failed to fetch liked recipes.";
       });
   },
 });
@@ -154,6 +177,17 @@ export const selectIsLoading = (state: { recipe: RecipeState }) =>
   state.recipe.isLoading;
 export const selectError = (state: { recipe: RecipeState }) =>
   state.recipe.error;
-export const { setQuery, setLiked, setActiveTab } = recipeSlice.actions;
+
+export const {
+  setQuery,
+  setLiked,
+  setActiveTab,
+  setData,
+  setRecipeForm,
+  setFileName,
+  setUpload,
+  resetRecipeForm,
+  setRecipesData,
+} = recipeSlice.actions;
 
 export default recipeSlice.reducer;

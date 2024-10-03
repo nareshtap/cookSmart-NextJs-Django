@@ -8,7 +8,6 @@ import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 import Slider from "@/components/home/Slider";
 import styles from "@/styles/home/Slider.module.css";
 import PopularRecipe from "@/components/home/PopularRecipe";
-import recipeData from "@/data/recipes.json";
 import AllRecipe from "@/components/home/AllRecipe";
 import RecipePoster from "@/components/home/RecipePoster";
 
@@ -33,25 +32,30 @@ const HomePage = () => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, [dispatch]);
 
-  const recipesData = recipes.length > 0 ? recipes : recipeData;
-
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
   return (
     <>
-      <Slider scrollToRecipes={() =>
+      <Slider
+        scrollToRecipes={() =>
           allRecipeRef.current?.scrollIntoView({ behavior: "smooth" })
-        } />
-      <PopularRecipe recipes={recipesData} />
+        }
+      />
+      <PopularRecipe
+        recipes={recipes}
+        scrollToRecipes={() =>
+          allRecipeRef.current?.scrollIntoView({ behavior: "smooth" })
+        }
+      />
       <RecipePoster
         scrollToRecipes={() =>
           allRecipeRef.current?.scrollIntoView({ behavior: "smooth" })
         }
       />
       <div ref={allRecipeRef}>
-        <AllRecipe recipes={recipesData} />
+        <AllRecipe recipes={recipes} />
       </div>
       {scrollToTopVisible && (
         <button onClick={scrollToTop} className={styles.scrollerbar}>

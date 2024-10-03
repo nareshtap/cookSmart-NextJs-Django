@@ -1,13 +1,7 @@
 import React from "react";
 import styles from "@/styles/home/AllRecipe.module.css";
 import { useRouter } from "next/navigation";
-
-interface Recipe {
-  id: number;
-  name: string;
-  photo_link: string;
-}
-
+import { Recipe } from "@/types/recipe";
 interface PopularRecipeProps {
   recipes: Recipe[];
 }

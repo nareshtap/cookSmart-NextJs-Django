@@ -1,20 +1,27 @@
-import React, { useState } from "react";
+import React, { useEffect } from "react";
 import styles from "@/styles/header/SearchOverlay.module.css";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "@/redux/store";
-import { selectRecipes, setQuery } from "@/redux/slices/recipeSlice";
+import { selectRecipes, setData, setQuery } from "@/redux/slices/recipeSlice";
 import { fetchRecipes } from "@/redux/services/recipeService";
 import Link from "next/link";
 import toast from "react-hot-toast";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
-import recipeData from "@/data/recipes.json";
+import { Recipe } from "@/types/recipe";
 
 const SearchOverlay = ({ onClose }) => {
   const dispatch: AppDispatch = useDispatch();
+
   const results = useSelector(selectRecipes);
-  const [data, setData] = useState(results.length > 0 ? results : recipeData);
-  const { query } = useSelector((state: RootState) => state.recipe);
+  const { query, data } = useSelector((state: RootState) => state.recipe);
+
+  useEffect(() => {
+    //fetch all recipes
+    dispatch(fetchRecipes(undefined));
+    // Applying local JSON data if no recipes are found in the database
+    dispatch(setData(results));
+  }, []);
 
   const handleSearch = async (e) => {
     e.preventDefault();
@@ -23,29 +30,16 @@ const SearchOverlay = ({ onClose }) => {
     if (trimmedQuery) {
       try {
         const response = await dispatch(fetchRecipes(trimmedQuery));
-        const { payload } = response as { payload: any[] };
+        const { payload } = response as { payload: Recipe[] };
 
         if (payload.length === 0) {
-          const localResults = recipeData.filter(
-            (recipe) =>
-              recipe.name.toLowerCase().includes(trimmedQuery.toLowerCase()) ||
-              recipe.ingredients.some((ingredient) =>
-                ingredient.toLowerCase().includes(trimmedQuery.toLowerCase())
-              ) ||
-              recipe.cuisine_type
-                .toLowerCase()
-                .includes(trimmedQuery.toLowerCase())
-          );
-
-          if (localResults.length === 0) {
-            toast.error("No Recipe Found.");
-          } else {
-            setData(localResults);
-          }
+          dispatch(setData());
+          // toast.error("No Recipe Found.");
+        } else {
+          dispatch(setData(payload));
         }
       } catch (error) {
         toast.error("An error occurred while fetching recipes.");
-        console.error("Error fetching recipes:", error);
       }
     } else {
       toast.error("Please enter something to search.");
@@ -74,7 +68,7 @@ const SearchOverlay = ({ onClose }) => {
           </div>
         </form>
         <ul className={styles.resultsList}>
-          {data.map((result, index) => (
+          {data ? data?.map((result, index) => (
             <Link href={`/${result.id}`} style={{ textDecoration: "none" }}>
               <li key={index} className={styles.resultItem} onClick={onClose}>
                 <img
@@ -88,7 +82,9 @@ const SearchOverlay = ({ onClose }) => {
                 </div>
               </li>
             </Link>
-          ))}
+          )): <>
+          <h3 className={styles.noRecipe}>No Recipe Found.</h3>
+          </>}
         </ul>
       </div>
     </div>

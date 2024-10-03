@@ -2,7 +2,7 @@ import React from "react";
 import styles from "@/styles/recipe/Poster.module.css";
 import recipeTitle from "@/public/images/recipes/recipeTitle.jpg";
 
-const Poster = () => {
+const Poster: React.FC = () => {
   return (
     <>
       <div

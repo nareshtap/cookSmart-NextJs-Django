@@ -1,27 +1,12 @@
+import { LoginFormData, RegisterFormData } from "@/types/auth";
 import axiosInstance from "@/utils/axios";
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import axios from "axios";
-
-interface LoginFormData {
-  email: string;
-  password: string;
-}
-
-interface RegisterFormData {
-  username: string;
-  email: string;
-  password: string;
-  phone_number: string;
-}
 
 export const login = createAsyncThunk(
   "login",
   async (formData: LoginFormData, { rejectWithValue }) => {
     try {
-      const response = await axiosInstance.post(
-        "/auth/token/",
-        formData
-      );
+      const response = await axiosInstance.post("/auth/token/", formData);
       const data = response.data;
       localStorage.setItem("access_token", data.access);
       localStorage.setItem("refresh_token", data.refresh);
@@ -40,13 +25,10 @@ export const register = createAsyncThunk(
   "register",
   async (registerData: RegisterFormData, { rejectWithValue }) => {
     try {
-      const response = await axiosInstance.post(
-       "/auth/register/",
-        {
-          ...registerData,
-          phone_number: Number(registerData.phone_number),
-        }
-      );
+      const response = await axiosInstance.post("/auth/register/", {
+        ...registerData,
+        phone_number: Number(registerData.phone_number),
+      });
       const data = response.data;
       localStorage.setItem("access_token", data.access);
       localStorage.setItem("refresh_token", data.refresh);

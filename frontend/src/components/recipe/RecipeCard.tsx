@@ -1,7 +1,7 @@
 import React from "react";
 import styles from "@/styles/recipe/RecipeCard.module.css";
-import { Recipe } from "@/redux/slices/recipeSlice";
 import { FaHeart } from "react-icons/fa";
+import { Recipe } from "@/types/recipe";
 
 interface RecipeCardProps {
   recipe: Recipe;

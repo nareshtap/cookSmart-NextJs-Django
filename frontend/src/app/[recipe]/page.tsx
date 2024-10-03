@@ -1,42 +1,46 @@
 "use client";
+import React, { useEffect, useMemo } from "react";
 import Poster from "@/components/recipe/Poster";
 import RecipeDetails from "@/components/recipe/RecipeDetails";
 import Slides from "@/components/recipe/Slides";
 import { AppDispatch } from "@/redux/store";
-import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "next/navigation";
-import { selectSelectedRecipe } from "@/redux/slices/recipeSlice";
-import { fetchRecipeById } from "@/redux/services/recipeService";
+import {
+  selectRecipes,
+  selectSelectedRecipe,
+} from "@/redux/slices/recipeSlice";
+import { fetchRecipeById, fetchRecipes } from "@/redux/services/recipeService";
 import redirectLoggedIn from "@/hoc/redirectToLogin";
-import recipeData from "@/data/recipes.json";
-import { notFound } from "next/navigation";
+import NotFound from "../not-found";
 
 const Page = () => {
   const dispatch = useDispatch<AppDispatch>();
+
   const { recipe } = useParams();
-  const recipeId = Number(recipe);
+
+  //fetching recipes by Id
   const currentRecipe = useSelector(selectSelectedRecipe);
-  const recipes =
-    currentRecipe === null
-      ? recipeData.find((recipeDetails) => recipeDetails.id === recipeId)
-      : currentRecipe;
+  const recipes = useSelector(selectRecipes);
+
+  const recipeId = useMemo(() => Number(recipe), [recipe]);
 
   useEffect(() => {
-    if (recipe) {
-      dispatch(fetchRecipeById(Number(recipe)));
+    if (recipeId) {
+      dispatch(fetchRecipeById(recipeId));
+      dispatch(fetchRecipes(undefined));
     }
-  }, [recipe, dispatch]);
+  }, [currentRecipe, recipeId, dispatch]);
 
-  if (!recipes) {
-    notFound();
+  if (!currentRecipe) {
+    return <NotFound />;
   }
 
   return (
     <>
       <Poster />
-      <Slides currentRecipes={recipes} />
-      <RecipeDetails currentRecipes={recipes} />
+      <Slides currentRecipes={currentRecipe} />
+      <RecipeDetails currentRecipes={currentRecipe} recipes={recipes} />
     </>
   );
 };

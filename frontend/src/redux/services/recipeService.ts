@@ -1,39 +1,6 @@
+import { Recipe, RecipeCreation } from "@/types/recipe";
 import axiosInstance from "@/utils/axios";
 import { createAsyncThunk } from "@reduxjs/toolkit";
-
-export interface User {
-  username: string;
-  email: string;
-  password: string;
-  phone_number: string;
-}
-
-export interface Recipe {
-  id: number;
-  name: string;
-  ingredients: string[];
-  instructions: string[];
-  liked_by: User[];
-  created_by: User;
-  cuisine_type: string;
-  photo_link: string;
-  preparation_time: number;
-  cooking_time: number;
-  yields: number;
-  is_vegetarian: boolean;
-}
-
-interface RecipeCreation {
-  name: string;
-  ingredients: string[];
-  instructions: string[];
-  cuisine_type: string;
-  photo_link: string;
-  preparation_time: string;
-  cooking_time: string;
-  yields: string;
-  is_vegetarian: boolean;
-}
 
 export const fetchRecipes = createAsyncThunk(
   "recipes/fetchRecipes",
