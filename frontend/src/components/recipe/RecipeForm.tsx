@@ -32,7 +32,7 @@ import {
   FileInputContainer,
   GradientBackground,
   StyledContainer,
-} from "./muiStyledComponents";
+} from "./MuiStyledComponents";
 
 const RecipeForm = () => {
   const dispatch = useDispatch<AppDispatch>();
