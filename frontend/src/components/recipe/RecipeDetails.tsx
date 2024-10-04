@@ -8,6 +8,7 @@ import { currentUser } from "@/redux/services/authService";
 import { setLiked } from "@/redux/slices/recipeSlice";
 import { dislikeRecipe, likeRecipe } from "@/redux/services/recipeService";
 import { Recipe } from "@/types/recipe";
+import YoutubeCard from "./YoutubeCard";
 
 interface PopularRecipeProps {
   currentRecipes: Recipe;
@@ -41,6 +42,8 @@ const RecipeDetails: React.FC<PopularRecipeProps> = ({ currentRecipes }) => {
       checkLikedStatus();
     }
   }, [currentRecipes]);
+
+  console.log(currentRecipes,"cur")
 
   const toggleLikeDislike = async () => {
     if (!liked) {
@@ -132,6 +135,7 @@ const RecipeDetails: React.FC<PopularRecipeProps> = ({ currentRecipes }) => {
           </ul>
         </div>
       </div>
+      <YoutubeCard videos={currentRecipes?.youtube_videos} />
     </>
   );
 };

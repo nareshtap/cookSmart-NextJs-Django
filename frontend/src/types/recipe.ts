@@ -5,6 +5,13 @@ export interface User {
   phone_number: string;
 }
 
+export interface YouTubeVideo {
+  title: string;
+  videoId: string;
+  thumbnail: string;
+  url: string;
+}
+
 export interface Recipe {
   id: number;
   name: string;
@@ -18,6 +25,7 @@ export interface Recipe {
   cooking_time: number;
   yields: number;
   is_vegetarian: boolean;
+  youtube_videos: YouTubeVideo[];
 }
 
 export interface RecipeForm {

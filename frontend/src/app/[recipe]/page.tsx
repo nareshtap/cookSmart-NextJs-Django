@@ -36,7 +36,7 @@ const Page = () => {
       if (!currentRecipe) {
         setRecipeFound(false);
       }
-    }, 100);
+    }, 1000);
 
     return () => clearTimeout(timer);
   }, [currentRecipe]);
