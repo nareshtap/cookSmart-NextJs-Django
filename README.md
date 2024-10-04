@@ -63,7 +63,7 @@ and navigate to ``` http://127.0.0.1:3000/home ```.
 ![Recipe Post page.](https://res.cloudinary.com/dzdsvt79u/image/upload/v1727784767/addRecipePage_kuwaa4.png "This is a sample image.")
 
 ### Recipe Details page:
-![Recipe Details page.](https://res.cloudinary.com/dzdsvt79u/image/upload/v1727784645/details_l5eivv.png "This is a sample image.")
+![Recipe Details page.](https://res.cloudinary.com/dzdsvt79u/image/upload/v1728023844/newDetailsPage_qtqunw.png "This is a sample image.")
 
 ### User Profile page:
 ![User profile page.](https://res.cloudinary.com/dzdsvt79u/image/upload/v1727784563/userProfile_lphwq4.png "This is a sample image.")
