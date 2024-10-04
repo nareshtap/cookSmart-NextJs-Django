@@ -21,8 +21,8 @@ const RecipeDetails: React.FC<PopularRecipeProps> = ({ currentRecipes }) => {
 
   const recipeId = currentRecipes?.id;
 
-  const checkLikedStatus = async () => {
-    const resultAction = await dispatch(currentUser());
+  const checkLikedStatus = () => {
+    const resultAction = dispatch(currentUser());
 
     if (currentUser.fulfilled.match(resultAction)) {
       const user = resultAction.payload;
@@ -43,12 +43,10 @@ const RecipeDetails: React.FC<PopularRecipeProps> = ({ currentRecipes }) => {
     }
   }, [currentRecipes]);
 
-  console.log(currentRecipes,"cur")
-
-  const toggleLikeDislike = async () => {
+  const toggleLikeDislike = () => {
     if (!liked) {
       try {
-        const resultAction = await dispatch(likeRecipe(recipeId));
+        dispatch(likeRecipe(recipeId));
         toast.success("Recipe Liked!");
         dispatch(setLiked(true));
       } catch (error) {
@@ -56,7 +54,7 @@ const RecipeDetails: React.FC<PopularRecipeProps> = ({ currentRecipes }) => {
       }
     } else {
       try {
-        const resultAction = await dispatch(dislikeRecipe(recipeId));
+        dispatch(dislikeRecipe(recipeId));
         toast.success("Recipe disLiked!");
         dispatch(setLiked(false));
       } catch (error) {
@@ -104,7 +102,7 @@ const RecipeDetails: React.FC<PopularRecipeProps> = ({ currentRecipes }) => {
           <span>Yields: {currentRecipes?.yields} Servings</span>
         </div>
         <div className={styles.recipeMeta}>
-          <span>cuisine Type: {currentRecipes?.cuisine_type}</span>
+          <span>Cuisine Type: {currentRecipes?.cuisine_type}</span>
           <span>Created By: {currentRecipes?.created_by.username}</span>
         </div>
       </div>

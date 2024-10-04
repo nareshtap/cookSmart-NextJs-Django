@@ -156,13 +156,12 @@ const RecipeForm = () => {
     return true;
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
     if (!validateForm()) {
       return;
     }
 
-    // Trim empty ingredients and instructions before sending
     const trimmedIngredients = recipeForm.ingredients
       .map((ingredient) => ingredient.trim())
       .filter((ingredient) => ingredient !== "");
@@ -171,7 +170,6 @@ const RecipeForm = () => {
       .map((instruction) => instruction.trim())
       .filter((instruction) => instruction !== "");
 
-    // Create a new form with trimmed values
     const trimmedRecipeForm = {
       ...recipeForm,
       ingredients: trimmedIngredients,
@@ -179,7 +177,7 @@ const RecipeForm = () => {
     };
 
     try {
-      await dispatch(addRecipe(trimmedRecipeForm));
+      dispatch(addRecipe(trimmedRecipeForm));
       dispatch(resetRecipeForm());
       toast.success("Recipe submitted successfully!");
       router.replace("/home");

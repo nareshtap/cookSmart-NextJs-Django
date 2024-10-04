@@ -59,7 +59,8 @@ class RecipeDetailView(generics.RetrieveAPIView):
             'title': video['snippet']['title'],
             'videoId': video['id']['videoId'],
             'thumbnail' : video['snippet']['thumbnails']['high']['url'],
-            'url': f"https://www.youtube.com/watch?v={video['id']['videoId']}"
+            'url': f"https://www.youtube.com/watch?v={video['id']['videoId']}",
+            'channelName': video['snippet']['channelTitle']  
         } for video in videos]
 
         return video_data

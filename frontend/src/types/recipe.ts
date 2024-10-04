@@ -10,6 +10,7 @@ export interface YouTubeVideo {
   videoId: string;
   thumbnail: string;
   url: string;
+  channelName: string;
 }
 
 export interface Recipe {
