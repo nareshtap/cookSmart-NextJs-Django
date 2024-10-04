@@ -30,9 +30,9 @@ const Navbar = () => {
     }
   }, [dispatch]);
 
-  const handleLogout = async () => {
+  const handleLogout = () => {
     try {
-      await dispatch(logout());
+      dispatch(logout());
       toast.success("Logout Successful!");
       localStorage.removeItem("access_token");
       localStorage.removeItem("refresh_token");

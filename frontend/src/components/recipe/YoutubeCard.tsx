@@ -30,6 +30,7 @@ const YoutubeCard: React.FC<PopularRecipeProps> = ({ videos }) => {
             >
               <img src={video.thumbnail} alt={video.title} />
               <div className={styles.recipeContent}>
+                <h6>From: {video.channelName}</h6>
                 <h5>{video.title}</h5>
               </div>
             </div>

@@ -71,6 +71,33 @@
   transition: color 0.3s;
 }
 
+.recipeContent h6 {
+  font-size: 16px;
+  margin-top: 6px;
+  font-weight: 500;
+  color: green;
+  transition: color 0.3s;
+  border-bottom: #40ba37;
+  text-decoration: none;
+  transition: color 0.3s, transform 0.2s;
+  position: relative;
+}
+
+.recipeContent h6::before {
+    content: "";
+    position: absolute;
+    bottom: -5px;
+    left: 50%;
+    width: 0;
+    height: 2px;
+    background: #4caf50;
+    transition: width 0.3s ease 0s, left 0.3s ease 0s;
+  }
+  .recipeContent h6:hover::before {
+    width: 100%;
+    left: 0;
+  }
+
 .singleBestRecipeArea:hover h5 {
   color: #40ba37;
 }
