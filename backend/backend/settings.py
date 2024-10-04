@@ -12,6 +12,10 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 
 from pathlib import Path
 from datetime import timedelta
+import os
+from dotenv import load_dotenv
+
+load_dotenv()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -178,4 +182,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 CORS_ALLOW_ALL_ORIGINS = True
 
-AUTH_USER_MODEL = 'login.User'
+AUTH_USER_MODEL = "login.User"
+
+YOUTUBE_API_URL = os.getenv("YOUTUBE_API_URL")
+YOUTUBE_API_KEY = os.getenv("YOUTUBE_API_KEY")

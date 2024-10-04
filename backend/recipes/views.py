@@ -3,6 +3,9 @@ from .models import Recipe
 from .serializers import RecipeSerializer
 from django.db.models import Q
 from rest_framework.response import Response
+from django.conf import settings
+import requests
+
 class RecipeListCreateView(generics.ListCreateAPIView):
     queryset = Recipe.objects.all()
     serializer_class = RecipeSerializer
@@ -30,11 +33,37 @@ class RecipeListCreateView(generics.ListCreateAPIView):
 
         return queryset
         
-class RecipeDetailView(generics.RetrieveUpdateDestroyAPIView):
+class RecipeDetailView(generics.RetrieveAPIView):
     queryset = Recipe.objects.all()
     serializer_class = RecipeSerializer
-    permission_classes = [permissions.IsAuthenticated] 
-    
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get(self, request, *args, **kwargs):
+        recipe = self.get_object()
+        recipe_data = self.get_serializer(recipe).data
+        videos = self.get_recipe_videos(recipe.name)
+        recipe_data['youtube_videos'] = videos
+        return Response(recipe_data)
+
+    def get_recipe_videos(self, recipe_name):
+        params = {
+            'q': recipe_name,
+            'part': 'snippet',
+            'maxResults': 8, 
+            'type': 'video',
+            'key': settings.YOUTUBE_API_KEY
+        }
+        response = requests.get(settings.YOUTUBE_API_URL, params=params)
+        videos = response.json().get('items', [])
+        video_data = [{
+            'title': video['snippet']['title'],
+            'videoId': video['id']['videoId'],
+            'thumbnail' : video['snippet']['thumbnails']['high']['url'],
+            'url': f"https://www.youtube.com/watch?v={video['id']['videoId']}"
+        } for video in videos]
+
+        return video_data
+
 class LikedRecipesView(generics.ListAPIView):
     permission_classes = [permissions.IsAuthenticated]
     serializer_class = RecipeSerializer
